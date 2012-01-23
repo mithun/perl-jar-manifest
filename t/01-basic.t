@@ -16,14 +16,14 @@ local $| = 1;
 use Jar::Manifest qw(Dump Load);
 
 my $str1 = <<"MANIFEST_MF";
-Manifest-Version: 1.0
 Built-By: JAPH
+Manifest-Version: 1.0
 
 Name: org/myapp/foo
+Implementation-URL: http://foo.com
 Implementation-Version: 1.5
 My-Random-Key: alalalalalalalalalalalalalalalalalalalalalalalalalalalal
  alalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-Implementation-URL: http://foo.com
 MANIFEST_MF
 
 my $m1 = {
@@ -43,10 +43,12 @@ my $m1 = {
 };
 
 # Check Load
-is_deeply( Load($str1), $m1 );
+my $m2 = Load($str1);
+is_deeply( $m1, $m2 );
 
 # Check Dump
-ok( Dump($m1) eq $str1 );
+my $str2 = Dump($m1);
+ok( $str1 eq $str2 );
 
 # Done
 done_testing();
