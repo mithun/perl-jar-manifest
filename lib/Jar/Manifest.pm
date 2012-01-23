@@ -238,9 +238,12 @@ Jar::Manifest - Read and Write Java Jar Manifests
 
 =head1 DESCRIPTION
 
-C<Jar::Manifest> provides a perl interface to read and write Manifest files found within Java archives - typically C<META-INF/MANIFEST.MF> within a <.jar> file.
+C<Jar::Manifest> provides a perl interface to read and write Manifest files
+found within Java archives - typically C<META-INF/MANIFEST.MF> within a <.jar>
+file.
 
-The Jar Manifest specification can be found here L<http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest>
+The Jar Manifest specification can be found here
+L<http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest>
 
 =head1 METHODS
 
@@ -254,13 +257,18 @@ The Jar Manifest specification can be found here L<http://docs.oracle.com/javase
     my $manifest = Load($string);
     print Dumper $manifest;
 
-Read the manifest contents in C<$string>. Returns a I<hash-reference> containing two keys. The I<main> key is another hash-reference to the main attributes and corresponding values. The I<entries> key is an array-ref of hashes containing per-entry attributes and the corresponding values
+Read the manifest contents in C<$string>. Returns a I<hash-reference>
+containing two keys. The I<main> key is another hash-reference to the main
+attributes and corresponding values. The I<entries> key is an array-ref of
+hashes containing per-entry attributes and the corresponding values
 
 =item Dump($manifest)
 
     print Dump($manifest);
 
-Turns the C<$manifest> data structure into a string that can be printed to a C<MANIFEST.MF> file. The C<$manifest> structure is expected to be in the same format as the C<Load()> output.
+Turns the C<$manifest> data structure into a string that can be printed to a
+C<MANIFEST.MF> file. The C<$manifest> structure is expected to be in the same
+format as the C<Load()> output.
 
 =back
 
@@ -272,8 +280,8 @@ L<Text::Wrap>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to
-C<bug-jar-manifest@rt.cpan.org>, or through the web interface at
+Please report any bugs or feature requests to C<bug-jar-manifest@rt.cpan.org>,
+or through the web interface at
 L<http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest>
 
 =head1 AUTHOR
