@@ -24,13 +24,14 @@ my $builder = Module::Build->new(
         'version'    => 0,
     },
     requires => {
-
+        'Encode'     => 0,
+        'Text::Wrap' => 0,
     },
     add_to_cleanup     => ['Jar-Manifest-*'],
     create_license     => 1,
     create_makefile_pl => 'traditional',
     meta_merge         => {
-        keywords  => [],
+        keywords  => [qw(java jar manifest)],
         resources => {
             bugtracker =>
                 'http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest',
