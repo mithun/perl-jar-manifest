@@ -5,7 +5,9 @@ WriteMakefile
   'NAME' => 'Jar::Manifest',
   'VERSION_FROM' => 'lib/Jar/Manifest.pm',
   'PREREQ_PM' => {
+                   'Encode' => 0,
                    'Test::More' => 0,
+                   'Text::Wrap' => 0,
                    'version' => 0
                  },
   'INSTALLDIRS' => 'site',

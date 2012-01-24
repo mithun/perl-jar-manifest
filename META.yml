@@ -9,7 +9,10 @@ configure_requires:
   Module::Build: 0.38
 dynamic_config: 1
 generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.113640'
-keywords: []
+keywords:
+  - java
+  - jar
+  - manifest
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -19,6 +22,9 @@ provides:
   Jar::Manifest:
     file: lib/Jar/Manifest.pm
     version: 0.01
+requires:
+  Encode: 0
+  Text::Wrap: 0
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest
   homepage: https://github.com/mithun/perl-jar-manifest

@@ -5,7 +5,11 @@
    ],
    "dynamic_config" : 1,
    "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.113640",
-   "keywords" : [],
+   "keywords" : [
+      "java",
+      "jar",
+      "manifest"
+   ],
    "license" : [
       "perl_5"
    ],
@@ -24,6 +28,12 @@
       "configure" : {
          "requires" : {
             "Module::Build" : "0.38"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Encode" : 0,
+            "Text::Wrap" : 0
          }
       }
    },
