@@ -10,7 +10,7 @@ use Carp qw(croak carp);
 #######################
 # VERSION
 #######################
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 #######################
 # EXPORT
@@ -36,12 +36,13 @@ sub Load {
     foreach my $para ( _split_to_paras(@_) ) {
         my $isa_entry = 0;
         my %h;
+        $isa_entry = 1
+            if ( lc( ( split( /\n+/, $para ) )[0] ) =~ m{^\s*name}xi );
         foreach my $line ( split( /\n+/, $para ) ) {
             next unless ( $line =~ m{.+:.+} );
             my ( $k, $v ) = map { _trim($_) } split( /\s*:\s+/, $line );
             $h{$k} = $v;
-            $isa_entry = 1 if ( lc($k) eq 'name' );
-        } ## end foreach my $line ( split( /\n+/...))
+        }
         if ($isa_entry) {
             push @{ $manifest->{entries} }, \%h;
         }
@@ -68,6 +69,7 @@ sub Dump {
 
     # Process Main
     foreach my $main_attr ( sort _sort_attr keys %{ $manifest->{main} } ) {
+        $main_attr = _trim($main_attr);
         _validate_attr($main_attr);
         $str
             .= _wrap_line(
@@ -80,6 +82,7 @@ sub Dump {
 
         # Get Name
         my ($name_attr) = grep { /^name$/xi } keys %{$entry};
+        $name_attr = _trim($name_attr);
         $name_attr || croak "Missing 'Name' attribute in entry";
         _validate_attr($name_attr);
         $str
@@ -94,6 +97,7 @@ sub Dump {
             keys %{$entry}
             )
         {
+            $entry_attr = _trim($entry_attr);
             _validate_attr($entry_attr);
             $str
                 .= _wrap_line(
@@ -112,23 +116,39 @@ sub Dump {
 
 # Split to paragraphs
 sub _split_to_paras {
-    return map {
-        $_ =~ s{(?:\r\n|\n|\r)+}{\n}gx;  # Consolidate new lines
-        $_ =~ s{\n\s}{}gx;               # Join multiline values
-        $_;                              # Return line
-        }
+    my $lines = join( '', @_ );
+    $lines = _fix_eol($lines);
+    my @paras;
+    foreach (
         split(
-        /(?:\r\n\s*|\n\s*|\r\s*){2,}/,   # Two or more new lines
-        join( '', @_ )
-        );
+            /(?:\n\s*){2,}/,  # Two or more new lines
+            $lines
+        )
+        )
+    {
+        $_ =~ s{\n+}{\n}gx;   # Consolidate new lines
+        $_ =~ s{\n\s}{}gx;    # Join multiline values
+        push @paras, $_;      # Save
+    } ## end foreach ( split( /(?:\n\s*){2,}/...))
+    return @paras;
 } ## end sub _split_to_paras
 
 # Trim
 sub _trim {
-    s{^\s+}{}xi;
-    s{\s+$}{}xi;
-    $_;
-}
+    my ($val) = @_;
+    return unless defined $val;
+    $val =~ s{^\s+}{}xi;
+    $val =~ s{\s+$}{}xi;
+    return $val;
+} ## end sub _trim
+
+# Correct EOL
+sub _fix_eol {
+    my ($val) = @_;
+    return unless defined $val;
+    $val =~ s{\r\n}{\n}mgxi;
+    return $val;
+} ## end sub _fix_eol
 
 # Validate Attribute
 sub _validate_attr {
@@ -152,10 +172,11 @@ sub _clean_val {
     my ($val) = @_;
 
     # Get rid of line breaks
-    $val =~ s{(?:\r\n|\n|\r)+}{}gix;
+    $val = _fix_eol($val);
+    $val =~ s{\n}{}gix;
 
-    # Trim left space
-    $val =~ s{^\s+}{}xi;
+    # Trim
+    $val = _trim($val);
 
     # Return encoded
     return Encode::encode_utf8($val);

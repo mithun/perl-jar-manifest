@@ -52,7 +52,7 @@ found within Java archives - typically `META-INF/MANIFEST.MF` within a <.jar>
 file.
 
 The Jar Manifest specification can be found here
-[http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest](http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest)
+[http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html\#JAR\_Manifest](http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html\#JAR\_Manifest)
 
 # METHODS
 

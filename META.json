@@ -4,7 +4,7 @@
       "Mithun Ayachit <mithun@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.113640",
+   "generated_by" : "Module::Build version 0.4, CPAN::Meta::Converter version 2.120921",
    "keywords" : [
       "java",
       "jar",
@@ -21,8 +21,8 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Test::More" : 0,
-            "version" : 0
+            "Test::More" : "0",
+            "version" : "0"
          }
       },
       "configure" : {
@@ -32,15 +32,15 @@
       },
       "runtime" : {
          "requires" : {
-            "Encode" : 0,
-            "Text::Wrap" : 0
+            "Encode" : "0",
+            "Text::Wrap" : "0"
          }
       }
    },
    "provides" : {
       "Jar::Manifest" : {
          "file" : "lib/Jar/Manifest.pm",
-         "version" : "0.02"
+         "version" : "0.03"
       }
    },
    "release_status" : "stable",
@@ -56,5 +56,5 @@
          "url" : "git://github.com/mithun/perl-jar-manifest.git"
       }
    },
-   "version" : "0.02"
+   "version" : "0.03"
 }

@@ -4,6 +4,13 @@ Mithun Ayachit
 
 * * * * *
 
+0.03
+====
+
+    - Account for EOL characters
+    - Clean up helper functions
+    - A _named_ entry is saved only if the section begins with "Name: "
+
 0.02
 ====
 
