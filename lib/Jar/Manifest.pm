@@ -10,7 +10,7 @@ use Carp qw(croak carp);
 #######################
 # VERSION
 #######################
-our $VERSION = '0.03';
+our $VERSION = '0.031';
 
 #######################
 # EXPORT
@@ -233,7 +233,11 @@ Jar::Manifest - Read and Write Java Jar Manifests
 
     my $manifest = Load($manifest_str);
     printf( "Jar built by -> %s\n", $manifest->{main}->{'Built-By'} );
-    printf("Name: %s\nVersion: %s\n") for @{ $manifest->{entries} };
+    printf(
+        "Name: %s\nVersion: %s\n",
+        $_->{Name}, $_->{'Implementation-Version'}
+        )
+        for @{ $manifest->{entries} };
 
     # Write a manifest
     my $manifest = {
@@ -260,7 +264,7 @@ Jar::Manifest - Read and Write Java Jar Manifests
 =head1 DESCRIPTION
 
 C<Jar::Manifest> provides a perl interface to read and write Manifest files
-found within Java archives - typically C<META-INF/MANIFEST.MF> within a <.jar>
+found within Java archives - typically C<META-INF/MANIFEST.MF> within a C<.jar>
 file.
 
 The Jar Manifest specification can be found here

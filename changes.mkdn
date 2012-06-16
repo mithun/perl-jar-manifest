@@ -3,6 +3,10 @@
 
 ---------------------
 
+# 0.031
+
+	- Minor POD updates
+
 # 0.03
 
 	- Account for EOL characters
