@@ -23,7 +23,11 @@ SYNOPSIS
 
     my $manifest = Load($manifest_str);
     printf( "Jar built by -> %s\n", $manifest->{main}->{'Built-By'} );
-    printf("Name: %s\nVersion: %s\n") for @{ $manifest->{entries} };
+    printf(
+        "Name: %s\nVersion: %s\n",
+        $_->{Name}, $_->{'Implementation-Version'}
+        )
+        for @{ $manifest->{entries} };
 
     # Write a manifest
     my $manifest = {
@@ -52,7 +56,7 @@ DESCRIPTION
 
 Jar::Manifest provides a perl interface to read and write Manifest files
 found within Java archives - typically META-INF/MANIFEST.MF within a
-<.jar> file.
+.jar file.
 
 The Jar Manifest specification can be found here
 http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest

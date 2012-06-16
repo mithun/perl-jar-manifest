@@ -21,7 +21,7 @@ name: Jar-Manifest
 provides:
   Jar::Manifest:
     file: lib/Jar/Manifest.pm
-    version: 0.03
+    version: 0.031
 requires:
   Encode: 0
   Text::Wrap: 0
@@ -30,4 +30,4 @@ resources:
   homepage: https://github.com/mithun/perl-jar-manifest
   license: http://dev.perl.org/licenses/
   repository: git://github.com/mithun/perl-jar-manifest.git
-version: 0.03
+version: 0.031
