@@ -10,7 +10,7 @@ use Carp qw(croak carp);
 #######################
 # VERSION
 #######################
-our $VERSION = '0.031';
+our $VERSION = '0.04';
 
 #######################
 # EXPORT
@@ -33,16 +33,28 @@ sub Load {
         main    => {},  # Main Attributes
         entries => [],  # Manifest entries
     };
+
     foreach my $para ( _split_to_paras(@_) ) {
         my $isa_entry = 0;
         my %h;
         $isa_entry = 1
             if ( lc( ( split( /\n+/, $para ) )[0] ) =~ m{^\s*name}xi );
+
         foreach my $line ( split( /\n+/, $para ) ) {
+
             next unless ( $line =~ m{.+:.+} );
             my ( $k, $v ) = map { _trim($_) } split( /\s*:\s+/, $line );
+            next unless ( defined $k and defined $v );
+            next if ( ( $k =~ m{^\s*$} ) or ( $v =~ m{^\s*$} ) );
+            if ( defined $h{$k} ) {
+
+                # Attribute names cannot be repeated within a section
+                croak "Found duplicate attribute: $k\n";
+            }
+
             $h{$k} = $v;
-        }
+        } ## end foreach my $line ( split( /\n+/...))
+
         if ($isa_entry) {
             push @{ $manifest->{entries} }, \%h;
         }
@@ -50,6 +62,7 @@ sub Load {
             $manifest->{main} = { %{ $manifest->{main} }, %h };
         }
     } ## end foreach my $para ( _split_to_paras...)
+
     return $manifest;
 } ## end sub Load
 
@@ -67,15 +80,20 @@ sub Dump {
 
     my $str = q();
 
+    # Manifest-Version is required!
+    if ( not defined $manifest->{main}->{'Manifest-Version'} ) {
+        croak "Manifest-Version is not provided!\n";
+    }
+
     # Process Main
-    foreach my $main_attr ( sort _sort_attr keys %{ $manifest->{main} } ) {
+    foreach my $main_attr ( _sort_attr( keys %{ $manifest->{main} } ) ) {
         $main_attr = _trim($main_attr);
         _validate_attr($main_attr);
         $str
             .= _wrap_line(
             "${main_attr}: " . _clean_val( $manifest->{main}->{$main_attr} ) )
             . "\n";
-    } ## end foreach my $main_attr ( sort...)
+    } ## end foreach my $main_attr ( _sort_attr...)
 
     # Process entries
     foreach my $entry ( @{ $manifest->{entries} } ) {
@@ -93,8 +111,10 @@ sub Dump {
 
         # Process others
         foreach my $entry_attr (
-            sort _sort_attr grep { !/$name_attr/ }
-            keys %{$entry}
+            _sort_attr(
+                grep { !/$name_attr/ }
+                    keys %{$entry}
+            )
             )
         {
             $entry_attr = _trim($entry_attr);
@@ -103,7 +123,7 @@ sub Dump {
                 .= _wrap_line(
                 "${entry_attr}: " . _clean_val( $entry->{$entry_attr} ) )
                 . "\n";
-        } ## end foreach my $entry_attr ( sort...)
+        } ## end foreach my $entry_attr ( _sort_attr...)
     } ## end foreach my $entry ( @{ $manifest...})
 
     # Done
@@ -184,17 +204,28 @@ sub _clean_val {
 
 # Sort Attributes
 sub _sort_attr {
-    ( grep { /-/ } $a ) <=> ( grep { /-/ } $b )
-        || lc($a) cmp lc($b);
-}
+    my @attr = @_;
+    @attr = sort {
+        ( grep { /-/ } $a ) <=> ( grep { /-/ } $b )
+            || lc($a) cmp lc($b)
+    } @attr;
+
+    # Manifest-Version must be first, and in exactly that case
+    my @order;
+    push @order, grep { /Manifest\-Version/ } @attr;
+    push @order, grep { !/Manifest\-Version/ } @attr;
+    return @order;
+} ## end sub _sort_attr
 
 # Wrap Line
 sub _wrap_line {
 
     # Wrap settings
-    $Text::Wrap::columns = 72;
-    $Text::Wrap::break   = '';
-    $Text::Wrap::huge    = 'wrap';
+    $Text::Wrap::unexpand = 0;
+    $Text::Wrap::tabstop  = 4;
+    $Text::Wrap::columns  = 72;
+    $Text::Wrap::break    = '';
+    $Text::Wrap::huge     = 'wrap';
 
     # Wrap
     return Text::Wrap::wrap( "", " ", @_ );
