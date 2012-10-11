@@ -2,7 +2,14 @@ Version History for Jar-Manifest
 Mithun Ayachit
 
 
-* * * * *
+0.04
+====
+
+    - Added the following additional constraints:
+        - Manifest-Version is required
+        - Manifest-Version must be first, and in exactly that case
+        - Attribute names cannot be repeated within a section
+    - Dumped strings will contain 2 new lines appended at EOF
 
 0.031
 =====
