@@ -126,6 +126,9 @@ sub Dump {
         } ## end foreach my $entry_attr ( _sort_attr...)
     } ## end foreach my $entry ( @{ $manifest...})
 
+    # Append 2 new lines at EOF
+    $str .= "\n\n";
+
     # Done
     return $str;
 } ## end sub Dump
