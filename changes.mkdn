@@ -1,6 +1,13 @@
-% Version History for Jar-Manifest
-% Mithun Ayachit
-%
+---
+author:
+- Mithun Ayachit
+title: 'Version History for Jar-Manifest'
+...
+
+# 0.4.1
+
+-   No functional changes. Use semver and move bugtracker to
+    github-issues
 
 # 0.04
 
@@ -28,4 +35,4 @@
 
     - Initial Release
 
-* * * * *
+------------------------------------------------------------------------

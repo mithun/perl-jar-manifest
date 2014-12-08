@@ -10,7 +10,7 @@ use Carp qw(croak carp);
 #######################
 # VERSION
 #######################
-our $VERSION = '0.04';
+our $VERSION = '0.4.1';
 
 #######################
 # EXPORT
@@ -38,19 +38,19 @@ sub Load {
         my $isa_entry = 0;
         my %h;
         $isa_entry = 1
-            if ( lc( ( split( /\n+/, $para ) )[0] ) =~ m{^\s*name}xi );
+          if ( lc( ( split( /\n+/, $para ) )[0] ) =~ m{^\s*name}xi );
 
         foreach my $line ( split( /\n+/, $para ) ) {
 
-            next unless ( $line =~ m{.+:.+} );
+          next unless ( $line =~ m{.+:.+} );
             my ( $k, $v ) = map { _trim($_) } split( /\s*:\s+/, $line );
-            next unless ( defined $k and defined $v );
-            next if ( ( $k =~ m{^\s*$} ) or ( $v =~ m{^\s*$} ) );
+          next unless ( defined $k and defined $v );
+          next if ( ( $k =~ m{^\s*$} ) or ( $v =~ m{^\s*$} ) );
             if ( defined $h{$k} ) {
 
                 # Attribute names cannot be repeated within a section
                 croak "Found duplicate attribute: $k\n";
-            }
+            } ## end if ( defined $h{$k} )
 
             $h{$k} = $v;
         } ## end foreach my $line ( split( /\n+/...))
@@ -63,7 +63,7 @@ sub Load {
         }
     } ## end foreach my $para ( _split_to_paras...)
 
-    return $manifest;
+  return $manifest;
 } ## end sub Load
 
 #######################
@@ -90,9 +90,9 @@ sub Dump {
         $main_attr = _trim($main_attr);
         _validate_attr($main_attr);
         $str
-            .= _wrap_line(
+          .= _wrap_line(
             "${main_attr}: " . _clean_val( $manifest->{main}->{$main_attr} ) )
-            . "\n";
+          . "\n";
     } ## end foreach my $main_attr ( _sort_attr...)
 
     # Process entries
@@ -104,25 +104,21 @@ sub Dump {
         $name_attr || croak "Missing 'Name' attribute in entry";
         _validate_attr($name_attr);
         $str
-            .= "\n"
-            . _wrap_line(
+          .= "\n"
+          . _wrap_line(
             "${name_attr}: " . _clean_val( $entry->{$name_attr} ) )
-            . "\n";
+          . "\n";
 
         # Process others
         foreach my $entry_attr (
-            _sort_attr(
-                grep { !/$name_attr/ }
-                    keys %{$entry}
-            )
-            )
+            _sort_attr( grep { !/$name_attr/ } keys %{$entry} ) )
         {
             $entry_attr = _trim($entry_attr);
             _validate_attr($entry_attr);
             $str
-                .= _wrap_line(
+              .= _wrap_line(
                 "${entry_attr}: " . _clean_val( $entry->{$entry_attr} ) )
-                . "\n";
+              . "\n";
         } ## end foreach my $entry_attr ( _sort_attr...)
     } ## end foreach my $entry ( @{ $manifest...})
 
@@ -130,7 +126,7 @@ sub Dump {
     $str .= "\n\n";
 
     # Done
-    return $str;
+  return $str;
 } ## end sub Dump
 
 #######################
@@ -147,30 +143,30 @@ sub _split_to_paras {
             /(?:\n\s*){2,}/,  # Two or more new lines
             $lines
         )
-        )
+      )
     {
         $_ =~ s{\n+}{\n}gx;   # Consolidate new lines
         $_ =~ s{\n\s}{}gx;    # Join multiline values
         push @paras, $_;      # Save
     } ## end foreach ( split( /(?:\n\s*){2,}/...))
-    return @paras;
+  return @paras;
 } ## end sub _split_to_paras
 
 # Trim
 sub _trim {
     my ($val) = @_;
-    return unless defined $val;
+  return unless defined $val;
     $val =~ s{^\s+}{}xi;
     $val =~ s{\s+$}{}xi;
-    return $val;
+  return $val;
 } ## end sub _trim
 
 # Correct EOL
 sub _fix_eol {
     my ($val) = @_;
-    return unless defined $val;
+  return unless defined $val;
     $val =~ s{\r\n}{\n}mgxi;
-    return $val;
+  return $val;
 } ## end sub _fix_eol
 
 # Validate Attribute
@@ -178,16 +174,16 @@ sub _validate_attr {
     my ($attr) = @_;
 
     croak
-        "Attributes can contain only alphanumeric, '-' or '_' characters : $attr"
-        unless ( $attr =~ m{^[-0-9a-zA-Z_]+$} );
+      "Attributes can contain only alphanumeric, '-' or '_' characters : $attr"
+      unless ( $attr =~ m{^[-0-9a-zA-Z_]+$} );
 
     croak "Attribute must contain at least one alphanumeric character : $attr"
-        unless ( $attr =~ m{[a-zA-Z0-9]+} );
+      unless ( $attr =~ m{[a-zA-Z0-9]+} );
 
     croak "Attribute length exceeds allowed value of 70 : $attr"
-        if ( length($attr) > 70 );
+      if ( length($attr) > 70 );
 
-    return 1;
+  return 1;
 } ## end sub _validate_attr
 
 # Clean Value
@@ -202,7 +198,7 @@ sub _clean_val {
     $val = _trim($val);
 
     # Return encoded
-    return Encode::encode_utf8($val);
+  return Encode::encode_utf8($val);
 } ## end sub _clean_val
 
 # Sort Attributes
@@ -210,14 +206,14 @@ sub _sort_attr {
     my @attr = @_;
     @attr = sort {
         ( grep { /-/ } $a ) <=> ( grep { /-/ } $b )
-            || lc($a) cmp lc($b)
+          || lc($a) cmp lc($b)
     } @attr;
 
     # Manifest-Version must be first, and in exactly that case
     my @order;
     push @order, grep { /Manifest\-Version/ } @attr;
     push @order, grep { !/Manifest\-Version/ } @attr;
-    return @order;
+  return @order;
 } ## end sub _sort_attr
 
 # Wrap Line
@@ -231,7 +227,7 @@ sub _wrap_line {
     $Text::Wrap::huge     = 'wrap';
 
     # Wrap
-    return Text::Wrap::wrap( "", " ", @_ );
+  return Text::Wrap::wrap( "", " ", @_ );
 } ## end sub _wrap_line
 
 #######################
@@ -340,9 +336,8 @@ L<Text::Wrap>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to
-C<bug-jar-manifest@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest>
+Please report any bugs or feature requests at
+L<https://github.com/mithun/perl-jar-manifest/issues>
 
 =head1 AUTHOR
 
@@ -350,7 +345,7 @@ Mithun Ayachit C<mithun@cpan.org>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2012, Mithun Ayachit. All rights reserved.
+Copyright (c) 2014, Mithun Ayachit. All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>.

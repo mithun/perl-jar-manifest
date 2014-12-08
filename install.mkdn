@@ -1,6 +1,8 @@
-% Installing Jar-Manifest
-% Mithun Ayachit
-%
+---
+author:
+- Mithun Ayachit
+title: 'Installing Jar-Manifest'
+...
 
 # Distribution page
 

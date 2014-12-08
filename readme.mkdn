@@ -56,43 +56,42 @@ files found within Java archives - typically `META-INF/MANIFEST.MF`
 within a `.jar` file.
 
 The Jar Manifest specification can be found here
-[http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html\#JAR\_Manifest](http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html\#JAR\_Manifest)
+[http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR\_Manifest](http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#JAR_Manifest)
 
 # METHODS
 
 - Load($string)
 
-    use Jar::Manifest qw(Load);
-    use Data::Dumper;
+        use Jar::Manifest qw(Load);
+        use Data::Dumper;
 
-    my $manifest = Load($string);
-    print Dumper $manifest;
+        my $manifest = Load($string);
+        print Dumper $manifest;
 
-Read the manifest contents in `$string`. Returns a _hash-reference_
-containing two keys. The _main_ key is another hash-reference to the
-main attributes and corresponding values. The _entries_ key is an
-array-ref of hashes containing per-entry attributes and the
-corresponding values
+    Read the manifest contents in `$string`. Returns a _hash-reference_
+    containing two keys. The _main_ key is another hash-reference to the
+    main attributes and corresponding values. The _entries_ key is an
+    array-ref of hashes containing per-entry attributes and the
+    corresponding values
 
 - Dump($manifest)
 
-    print Dump($manifest);
+        print Dump($manifest);
 
-Turns the `$manifest` data structure into a string that can be printed
-to a `MANIFEST.MF` file. The `$manifest` structure is expected to be
-in the same format as the `Load()` output.
+    Turns the `$manifest` data structure into a string that can be printed
+    to a `MANIFEST.MF` file. The `$manifest` structure is expected to be
+    in the same format as the `Load()` output.
 
 # DEPENDENCIES
 
-[Encode](http://search.cpan.org/perldoc?Encode)
+[Encode](https://metacpan.org/pod/Encode)
 
-[Text::Wrap](http://search.cpan.org/perldoc?Text::Wrap)
+[Text::Wrap](https://metacpan.org/pod/Text::Wrap)
 
 # BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to
-`bug-jar-manifest@rt.cpan.org`, or through the web interface at
-[http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest](http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest)
+Please report any bugs or feature requests at
+[https://github.com/mithun/perl-jar-manifest/issues](https://github.com/mithun/perl-jar-manifest/issues)
 
 # AUTHOR
 
@@ -100,7 +99,7 @@ Mithun Ayachit `mithun@cpan.org`
 
 # LICENSE AND COPYRIGHT
 
-Copyright (c) 2012, Mithun Ayachit. All rights reserved.
+Copyright (c) 2014, Mithun Ayachit. All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself. See [perlartistic](http://search.cpan.org/perldoc?perlartistic).
+under the same terms as Perl itself. See [perlartistic](https://metacpan.org/pod/perlartistic).

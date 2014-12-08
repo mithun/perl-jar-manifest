@@ -34,7 +34,7 @@ my $builder = Module::Build->new(
         keywords  => [qw(java jar manifest)],
         resources => {
             bugtracker =>
-                'http://rt.cpan.org/Public/Dist/Display.html?Name=Jar-Manifest',
+              'https://github.com/mithun/perl-jar-manifest/issues',
             repository => 'git://github.com/mithun/perl-jar-manifest.git',
             homepage   => 'https://github.com/mithun/perl-jar-manifest',
         },

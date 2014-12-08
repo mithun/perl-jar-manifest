@@ -38,7 +38,7 @@ my $m1 = {
             'Name'                   => 'org/myapp/foo',
             'Implementation-Version' => '1.5',
             'My-Random-Key' =>
-                'alalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala',
+              'alalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala',
             'Implementation-URL' => 'http://foo.com',
         }
     ],
